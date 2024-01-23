@@ -72,39 +72,75 @@ io.on('connection', (socket) => {
 
 
     // Cerrar canal
+    // socket.on('cerrarCanal', (canal) => {
+    //     console.log(canal);
+    //     // Obtener todos los sockets en el canal
+    //     var sockets = io.sockets.adapter.rooms.get(canal);
+    //     console.log(sockets);
+    //     // Si hay sockets en el canal
+    //     if (sockets) {
+    //         // Para cada socket en el canal
+    //         sockets.forEach((socketId) => {
+    //             console.log("desconectado socket...")
+    //             // Obtener el socket
+    //             let socket = io.sockets.sockets.get(socketId);
+    //             // Si el socket existe
+    //             if (socket) {
+    //                 console.log(socketId, " deja el canal");
+    //                 // Hacer que el socket deje el canal
+    //                 socket.leave(canal);
+    //                 // Desconectar el socket
+    //                 // socket.disconnect(true);
+    //             }
+    //         });
+    //     }
+    //     console.log(`Todos los usuarios se han desconectado del canal ${canal}.`);
+    //     // Limpiar los usuarios conectados al canal
+    //     if (usuariosConectados[canal]) {
+    //         usuariosConectados[canal].clear();
+    //     }
+    //     console.log("usuarion conectados ", usuariosConectados[canal] ? usuariosConectados[canal].size : 0);
+    //     io.emit('canalCerrado', {
+    //         usuarios: usuariosConectados[canal] ? Array.from(usuariosConectados[canal]) : [],
+    //         canal: canal
+    //     });
+    //     console.log("se emite el cerrado");
+    // });
     socket.on('cerrarCanal', (canal) => {
-        console.log(canal);
         // Obtener todos los sockets en el canal
-        var sockets = io.sockets.adapter.rooms.get(canal);
-        console.log(sockets);
+        const room = io.sockets.adapter.rooms.get(canal);
+
         // Si hay sockets en el canal
-        if (sockets) {
+        if (room) {
             // Para cada socket en el canal
-            sockets.forEach((socketId) => {
-                console.log("desconectado socket...")
+            room.forEach((socketId) => {
                 // Obtener el socket
-                let socket = io.sockets.sockets.get(socketId);
+                const socket = io.sockets.sockets.get(socketId);
+
                 // Si el socket existe
                 if (socket) {
-                    console.log(socketId, " deja el canal");
                     // Hacer que el socket deje el canal
                     socket.leave(canal);
-                    // Desconectar el socket
-                    // socket.disconnect(true);
                 }
             });
         }
-        console.log(`Todos los usuarios se han desconectado del canal ${canal}.`);
+
         // Limpiar los usuarios conectados al canal
         if (usuariosConectados[canal]) {
             usuariosConectados[canal].clear();
+            delete usuariosConectados[canal];  // Eliminar la entrada del canal
         }
-        console.log("usuarion conectados ", usuariosConectados[canal] ? usuariosConectados[canal].size : 0);
+
+        console.log(`Todos los usuarios se han desconectado del canal ${canal}.`);
+        console.log("Usuarios conectados ", usuariosConectados[canal] ? usuariosConectados[canal].size : 0);
+
+        // Emitir un evento informando que el canal ha sido cerrado
         io.emit('canalCerrado', {
-            usuarios: usuariosConectados[canal] ? Array.from(usuariosConectados[canal]) : [],
+            usuarios: [],
             canal: canal
         });
-        console.log("se emite el cerrado");
+
+        console.log(`Se ha cerrado el canal ${canal}.`);
     });
 
     socket.on('moverDiagrama', (data) => {
