@@ -19,6 +19,7 @@ io.on('connection', (socket) => {
         console.log("el usuario con id: " + userId + " está tratando de unirse al " + canal);
         // Si el canal no existe en usuariosConectados, inicialízalo
         if (!usuariosConectados[canal]) {
+            console.log("ingresa a sesionActiva")
             usuariosConectados[canal] = new Set();
             io.emit('sesionActiva', canal);
         }
