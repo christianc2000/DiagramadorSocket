@@ -1,0 +1,24 @@
+{
+  "name": "socket_io",
+  "version": "1.0.0",
+  "description": "soket io server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "socketio"
+  ],
+  "author": "christianc",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mxgraph": "^4.2.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
