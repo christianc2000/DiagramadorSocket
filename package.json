@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mxgraph": "^4.2.2",
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
