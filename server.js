@@ -11,7 +11,7 @@ server.listen(3000, () => {
 })
 let usuariosConectados = {};
 io.on('connection', (socket) => {
-    // console.log('Un cliente se ha conectado');
+    console.log('Un cliente se ha conectado al servidor socket');
     // Unirse a un canal
     socket.on('unirse', (data) => {
         const canal = data.canal;
